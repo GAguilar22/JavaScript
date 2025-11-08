@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <script>
+        // Funció declarada
+        function saludar(nom) {
+            return "Hola, " + nom + "!";
+            }
+
+            console.log(saludar("Carles"));
+
+            
+            // Funció anònima
+            let sumar = function(a, b) {
+            return a + b;
+            };
+
+            console.log(sumar(8, 6));
+
+            //Funció fletxa
+            const multiplicar = (a, b) => a * b;
+
+            console.log(multiplicar(2, 56)); 
+
+            // Funció amb valor per defecte
+            function saludar(nom = "amic") {
+                return `Hola, ${nom}`;
+                }
+
+                saludar();
+                saludar("Youssef");
+
+            // Funció amb arguments variables
+            function llistar() {
+                for (var i = 0; i < arguments.length; i++) {
+                    console.log(arguments[i]);
+                }
+                }
+
+                llistar("poma", "pera", "plàtan");
+                
+            
+
+    </script>
+    
+</body>
+</html>

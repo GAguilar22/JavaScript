@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+
+            let contadorAlumnes = 0;
+            let sumaNotes = 0;
+            
+            let alumnes = ["Carles" , "Youssef" , "Eduard" , "David" , "Jesus"];
+            let notes = [];
+
+            //Demanem les notes i les guardem al array "notes"
+            //Comprovem si l'usuari introdueix un número entre 0-10, si no es així, tornem a demanar la nota
+            for(let i = 0; i <alumnes.length; i++){
+                let nota = parseFloat(prompt("Introdueix la nota de " + alumnes[i]));
+                while(isNaN(nota) || nota < 0 || nota > 10){
+                        alert("Només es permeten números entre 0 i 10");
+                        nota = parseFloat(prompt("Introdueix la nota de " + alumnes[i]));
+                    }               
+                notes[i] = nota;
+                contadorAlumnes++;
+                sumaNotes += nota;
+            }
+
+            let opcio;
+        do {
+            //Menñu amb les diferents opcions
+            opcio = parseInt(prompt(
+                "Menú d'opcions:\n" +
+
+                    "1) Veure notes\n" +
+                    "2) Classificació aprovat/suspès\n" +
+                    "3) Veure nota mitjana\n" +
+                    "4) Veure millor i pitjor nota\n" +
+                    "0) Sortir"
+            ));
+
+            switch(opcio){
+                //Veure les notes
+                case 1:
+                    let totesNotes = "Notes dels alumnes:\n";
+                    for(let i = 0; i < alumnes.length; i++){
+                        totesNotes += alumnes[i] + " : " + notes[i] + "\n";
+                    }
+                    alert(totesNotes);
+                    break;
+
+                //Classificació aprovat/suspès
+                case 2:
+                    let apovatSuspes = "Classificació dels alumnes:\n";
+                    for(let i =0; i < alumnes.length; i++){
+                        if(notes[i] >= 5){
+                            apovatSuspes += alumnes[i] + " -> Aprovat\n";
+                        }else{
+                            apovatSuspes += alumnes[i] + " -> Suspès\n";
+                        }
+                    }
+                    alert(apovatSuspes);
+                    break;
+
+                //Nota mitja
+                case 3:
+                    let mitjana = sumaNotes / contadorAlumnes;
+                    alert("La nota mitjana de la classe és: "+ mitjana.toFixed(2));
+                    break;
+                
+                case 4:
+                    //Mostrem la millor i la pitjor nota
+                    let millorNota = 0;
+                    let pitjorNota = 10;
+                    let nomMillor = alumnes[0];
+                    let nomPitjor = alumnes[0];
+
+                    for(let i = 0; i < notes.length; i++){
+                        if(notes[i] > millorNota){
+                            millorNota = notes[i];
+                            nomMillor = alumnes[i];
+                        }
+                        if(notes[i] < pitjorNota){
+                            pitjorNota = notes[i];
+                            nomPitjor = alumnes[i];
+                        }
+                    }
+
+                    alert("La nota més alta és: "+ millorNota + " de l'alumne: " + nomMillor + "\n" + "La nota més baixa és: "+ pitjorNota + " de l'alumne: " + nomPitjor);
+                    break;
+
+                //Sortim del programa
+                case 0:
+                    alert("Sortint del programa");
+                    break;
+
+                default:
+                    alert("Opció no vàlida, Introdueix un número del 0 al 4");
+                    break;
+
+                }
+
+            
+        } while (opcio!=0);
+
+    </script>
+    
+</body>
+</html>

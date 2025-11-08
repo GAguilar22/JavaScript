@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ca">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Activitat avaluable 2</title>
+    <script src="tasques.js"></script>
+    <link rel="stylesheet" href="estils.css">
+</head>
+
+<body onload="mostrarTasques()">
+    <div id="botons">
+        <button onclick="afegirTasca(mostrarTasques)">Afegir tasca</button>
+        <button onclick="eliminarTasca(mostrarTasques)">Eliminar tasca</button>
+        <button onclick="canviarEstat(mostrarTasques)">Canviar estat d'una tasca</button>
+    </div>
+    <h2>Llista de Tasques</h2>
+    <div id="tasques"></div>
+
+</body>
+
+</html>
