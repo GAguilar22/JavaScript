@@ -10,27 +10,34 @@ El complementari: 23
 El reintegrament: 3*/
 
 //Creacio de l'array guanyador
-let combinacio_guanyadora = [];
+const combinacio_guanyadora = [];
 
-//Combinacio principal
 
-while(combinacio_guanyadora.length < 6){
-    let random = Math.floor(Math.random()*50);
-    //Para que usamos esto?.
-    let exist = false;
-
-    for(let i = 0; i < combinacio_guanyadora.length; i++){
-        if(combinacio_guanyadora[i] === random){
-            exist = true;
-        }
+do {
+    let num = Math.floor(Math.random()*49)+1;
+    if(!combinacio_guanyadora.includes(num)){
+        combinacio_guanyadora.push(num);
     }
 
-    if(!exist){
-        combinacio_guanyadora.push(random);
-    }
+} while (combinacio_guanyadora.length < 6);
 
-    let reintegrament = Math.floor(Math.random()*10);
-    let complementari = Math.floor(Math.random()*50);
+let complementari;
 
-    console.log("La combinació guanyadora és: " + combinacio_guanyadora);
-}
+do {
+    complementari = Math.floor(Math.random()*49)+1;
+} while (combinacio_guanyadora.includes(complementari));
+
+let reintegrament = Math.floor(Math.random()*10);
+
+let combinacioFinal = "";
+combinacio_guanyadora.forEach(num=>{
+    combinacioFinal += num + " ";
+})
+
+// console.log("La combinació guanyadora es: "+ combinacioFinal);
+// console.log("El número complementari es: "+ complementari);
+// console.log("El reintegrament es: "+ reintegrament);
+
+document.getElementById("combi").innerHTML = "La combinació guanyadora es: "+ combinacioFinal;
+document.getElementById("compl").innerHTML = "El número complementari es: "+ complementari;
+document.getElementById("reint").innerHTML = "El reintegrament es: "+ reintegrament; 
