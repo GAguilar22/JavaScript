@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .multipleCinc{
+            color: blue;
+            font-size: 120%;
+        }
+        .multipleSet{
+            color: red;
+            font-size: 80%;
+        }
+        .multipleCincSet{
+            color: green;
+        }
+    </style>
+
+</head>
+<body>
+
+    <script>
+
+        for(let i = 1; i <= 100; i++){
+            let numero = "";
+            
+            if(i % 5 == 0 && i % 7 == 0){
+                numero = `<span class="multipleCincSet">${i}</span>`;
+            }else if(i % 5 == 0){
+                numero = `<span class="multipleCinc">${i}</span>`;
+            }else if(i % 7 == 0){
+                numero = `<span class="multipleSet">${i}</span>`;
+            }else{
+                numero = `<span>${i}</span>`;
+            }
+            
+            document.body.innerHTML += numero + " ";
+            
+            if(i % 10 == 0){
+                document.body.innerHTML += "<br>";
+            }
+        }
+
+    </script>
+    
+</body>
+</html>
+

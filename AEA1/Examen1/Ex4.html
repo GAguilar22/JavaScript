@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <script>
+
+        let textOriginal = prompt("Introdueix un missatge en minúscules:");
+        let alfabet = "abcdefghijklmnopqrstuvwxyz";
+        let desplaçament = 5;
+        let textXifrat = "";
+        let i = 0;
+
+        while (i < textOriginal.length) {
+            let lletra = textOriginal.charAt(i);
+            let posicio = alfabet.indexOf(lletra);
+
+            if (posicio !== -1) {
+                let novaPosicio = (posicio + desplaçament) % alfabet.length;
+                textXifrat += alfabet.charAt(novaPosicio);
+            } else {
+                textXifrat += lletra;
+            }
+
+            i++;
+        }
+
+        alert("Frase xifrada: " + textXifrat);
+
+
+    </script>
+
+</body>
+
+</html>

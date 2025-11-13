@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <script>
+
+        let notaAct = parseInt(prompt("Introdueix la nota de les activitats:"));
+
+        let notaExamen = parseInt(prompt("Introdueix la nota de l'examen"));
+
+        let notaPorta = parseInt(prompt("Introdueix la nota del portafolis"));
+
+        let mitjanaSus = "No s'ha pogut calcular la nota mitjana perquè no has arribat als mínims. ";
+
+        let mitjanaApte
+
+        if (notaAct < 4 || notaExamen < 4) {
+            document.body.innerHTML += "<p>NO APTE</p>";
+            document.body.innerHTML += "<p>La nota de les activitats és: " + notaAct + "</p>";
+            document.body.innerHTML += "<p>La nota de l'examen és: " + notaExamen + "</p>";
+            document.body.innerHTML += "<p>La nota del portfolis és: " + notaPorta + "</p>";
+            document.body.innerHTML += "<p>" + mitjanaSus + "</p>";
+            
+        } else if (notaAct >= 4 && notaExamen >= 4) {
+            mitjanaApte = mitjanaApte = ((notaAct + notaExamen + notaPorta) / 3);
+            document.body.innerHTML += "<p>APTE</p>";
+            document.body.innerHTML += "<p>La nota de les activitats és: " + notaAct + "</p>";
+            document.body.innerHTML += "<p>La nota de l'examen és: " + notaExamen + "</p>";
+            document.body.innerHTML += "<p>La nota del portfolis és: " + notaPorta + "</p>";
+            document.body.innerHTML += "<p>La nota mitjana és: " + mitjanaApte + "</p>";
+        }
+
+
+
+    </script>
+
+</body>
+
+</html>

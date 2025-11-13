@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <script>
+
+        let frase = prompt("Introdueix una frase");
+
+        let paraula = frase.split("").includes("a");
+        
+        let paraula1 = frase.split("").includes("e");
+
+        let paraula2 = frase.split("").includes("i");
+
+        let paraula3 = frase.split("").includes("o");
+
+        let paraula4 = frase.split("").includes("u");
+
+
+        if(paraula == true && paraula1 == true && paraula2 == true && paraula3 == true && paraula4 == true ){
+            alert("És un pangrama vocàlic")
+        }else{
+            alert("No és un pangrama vocàlic")
+        }
+
+
+    </script>
+
+</body>
+
+</html>
