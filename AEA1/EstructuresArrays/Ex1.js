@@ -12,4 +12,10 @@ productes.push(["motxilla", 39.99, 12]);
 productes.splice(3,1);
 
 //Filtrar producte amb descompte
-productes.map()
+productes.map() = [
+  ["camisa", 19.99,20],
+  ["pantalons", 29.99, 15],
+  ["sabates", 49.99, 10],
+  ["motxilla", 39.99,12]
+];
+
