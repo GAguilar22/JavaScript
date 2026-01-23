@@ -10,7 +10,7 @@ class Animal {
         console.log("Sóc un animal anomenat " + this.nom + " i tinc " + this.edat + " anys.")
     }
 
-    settDieta(dieta) {
+    setDieta(dieta) {
         this.#dieta = dieta;
     }
 
@@ -19,3 +19,5 @@ class Animal {
     }
 
 }
+
+module.exports = Animal;

@@ -1,5 +1,9 @@
+const Animal = require('./Animal');
+
 class Gat extends Animal {
     ferSo() {
-        console.log("Miau miau");
+        console.log("Mèu mèu!");
     }
 }
+
+module.exports = Gat;
