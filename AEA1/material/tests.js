@@ -1,72 +1,74 @@
 // Importa las clases a testear
-const { inventari } = require('./inventari');
+const { Publicacio, Llibre, Revista, ArticleRecerca, Usuari, Biblioteca } = require('./a4'); 
 
-console.log("== Test inventari.js ==");
+// Funció de test per provar les funcionalitats de les classes
+function runTests() {
+    console.log("Iniciant el joc de proves...");
 
-console.log("Afegint nou joc...");
-let nouId = inventari.afegirJoc("Elden Ring", "PlayStation 5", 4);
-console.log("Nou id:", nouId);
+    // Test de la classe Publicacio i les seves subclasses
+    const llibre = new Llibre("El senyor dels anells", "J.R.R. Tolkien", 1954, 1178);
+    const revista = new Revista("National Geographic", "Diversos Autors", 2023, 128);
+    const article = new ArticleRecerca("Intel·ligència Artificial", "John Doe", 2022, "Tecnologia", 150);
 
-console.log("Intentant afegir duplicat...");
-let duplicat = inventari.afegirJoc("Elden Ring", "PlayStation 5", 2);
-console.log("Resultat esperat null:", duplicat);
+    // Test dels getters i setters de Publicacio i subclasses
+    console.assert(llibre.titol === "El senyor dels anells", "Error en el getter del títol de Llibre");
+    console.assert(revista.autor === "Diversos Autors", "Error en el getter de l'autor de Revista");
+    console.assert(article.anyPublicacio === 2022, "Error en el getter de l'any de publicació de ArticleRecerca");
 
-console.log("Actualitzant estoc...");
-let actualitzat = inventari.actualitzarEstoc(nouId, 10);
-console.log("Actualització correcta:", actualitzat);
+    llibre.titol = "El Hobbit";
+    console.assert(llibre.titol === "El Hobbit", "Error en el setter del títol de Llibre");
 
-console.log("Filtrant per plataforma...");
-let ps5 = inventari.filtrarPerPlataforma("PlayStation 5");
-console.log("Jocs PS5:", ps5);
+    // Test del mètode obtenirResum per cada subclasse
+    console.assert(
+        llibre.obtenirResum() === "Llibre: El Hobbit de J.R.R. Tolkien, 1178 pàgines.",
+        "Error en el mètode obtenirResum de Llibre"
+    );
+    console.assert(
+        revista.obtenirResum() === "Revista: National Geographic de Diversos Autors, Número d'edició: 128.",
+        "Error en el mètode obtenirResum de Revista"
+    );
+    console.assert(
+        article.obtenirResum() === "Article de Recerca: Intel·ligència Artificial de John Doe, Tema: Tecnologia, Cites: 150.",
+        "Error en el mètode obtenirResum de ArticleRecerca"
+    );
 
-console.log("Llistant disponibles...");
-console.log(inventari.llistarDisponibles());
+    // Test de la classe Usuari
+    const usuari = new Usuari("Maria", "Garcia");
+    usuari.afegirAFavorits(llibre);
+    usuari.afegirAFavorits(article);
 
-console.log("Joc amb més estoc:");
-console.log(inventari.jocAmbMesEstoc());
+    console.log("Publicacions favorites (esperat 2):", usuari.mostrarFavorits()?.length === 2);
 
+    // Provar mostrarFavorits per veure si mostra el resum correcte de les publicacions favorites
+    console.log("Mostrant publicacions favorites de l'usuari:");
+    usuari.mostrarFavorits(); // Ha de mostrar el resum de llibre i article
 
-/* Aquest joc de proves ha de mostrar per consola el següent:
+    // Test de la classe Biblioteca
+    const biblioteca = new Biblioteca();
+    biblioteca.afegirPublicacio(llibre);
+    biblioteca.afegirPublicacio(revista);
+    biblioteca.afegirPublicacio(article);
 
-== Test inventari.js ==
-Afegint nou joc...
-Nou id: 3
-Intentant afegir duplicat...
-Resultat esperat null: null
-Actualitzant estoc...
-Actualització correcta: true
-Filtrant per plataforma...
-Jocs PS5: [
-  {
-    id: 3,
-    titol: 'Elden Ring',
-    plataforma: 'PlayStation 5',
-    estoc: 10
-  }
-]
-Llistant disponibles...
-[
-  {
-    id: 1,
-    titol: 'Zelda: Breath of the Wild',
-    plataforma: 'Nintendo Switch',
-    estoc: 3
-  },
-  { id: 2, titol: 'God of War', plataforma: 'PlayStation 4', estoc: 5 },
-  {
-    id: 3,
-    titol: 'Elden Ring',
-    plataforma: 'PlayStation 5',
-    estoc: 10
-  }
-]
-Joc amb més estoc:
-[
-  {
-    id: 3,
-    id: 3,
-    titol: 'Elden Ring',
-    plataforma: 'PlayStation 5',
-    estoc: 10
-  }
-] */
+    // Test de buscarPerTitol
+    const resultatBuscar = biblioteca.buscarPerTitol("El Hobbit");
+    console.assert(resultatBuscar.length === 1 && resultatBuscar[0] === llibre, "Error en el mètode buscarPerTitol");
+
+    // Test de mostrarPublicacions (verificar la sortida manualment)
+    console.log("Mostrant publicacions a la biblioteca:");
+    biblioteca.mostrarPublicacions();
+
+    // Test de filtrarPerTipus
+    const llibres = biblioteca.filtrarPerTipus(Llibre);
+    console.assert(llibres.length === 1 && llibres[0] === llibre, "Error en el mètode filtrarPerTipus per Llibre");
+
+    const revistes = biblioteca.filtrarPerTipus(Revista);
+    console.assert(revistes.length === 1 && revistes[0] === revista, "Error en el mètode filtrarPerTipus per Revista");
+
+    const articles = biblioteca.filtrarPerTipus(ArticleRecerca);
+    console.assert(articles.length === 1 && articles[0] === article, "Error en el mètode filtrarPerTipus per ArticleRecerca");
+
+    console.log("Totes les proves han estat realitzades.");
+}
+
+// Executar les proves
+runTests();
