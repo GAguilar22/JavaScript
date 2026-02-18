@@ -26,10 +26,11 @@ function generarEmparellaments(equips, ronda) {
         // console.log(`Partit ${partits.length + 1}: ${local} vs ${visitant}`);
         console.log("Partit " + (partits.length + 1) + ": " + local + " vs " + visitant + "\n");
 
-        partits.push({
-            local: local,
-            visitant: visitant
-        });
+        let partit = {};
+        partit.local = local;
+        partit.visitant = visitant;
+
+        partits.push(partit);
     }
     return partits;
 }
