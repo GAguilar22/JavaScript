@@ -24,8 +24,8 @@ window.onload = function () {
         //Calculem el total
         let total = subtotal + Math.round(subtotal * 0.05) + 7 - descompte;
 
-        //Actualitzem l'element subtotal i busquem el pare i el germà que esta muted
-        $('h6:contains("Subtotal")').parent().siblings('.text-muted').text(subtotal + '€');
+        //Actualitzem l'element subtotal buscant el text-muted del primer element de la llista
+        $('.list-group-item:first .text-muted').text(subtotal + '€');
 
         //Actualitzem el total i busquem el <strong> de ".list-group"
         $('.list-group strong').text(total + '€');
@@ -102,8 +102,8 @@ window.onload = function () {
     //L'usuari fa click al boto checkout
     $('.btn-success').click(function () {
 
-        // Llegim el subtotal actual
-        let subtotal = parseInt($('h6:contains("Subtotal")').parent().siblings('.text-muted').text());
+        // Llegim el subtotal actual buscant-lo al primer element de la llista
+        let subtotal = parseInt($('.list-group-item:first .text-muted').text());
 
         // Tornem a calcular el descompte per mostrar-lo correctament al modal
         let descompte = 0;
