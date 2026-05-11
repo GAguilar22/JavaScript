@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ca">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Aplicació per explorar pel·lícules, personatges i localitzacions de Studio Ghibli mitjançant la Ghibli API.">
+    <title>Studio Ghibli Explorer</title>
+</head>
+
+<body>
+
+    <header class="header">
+        <div class="header-content">
+            <h1 class="header-title">Studio Ghibli Explorer</h1>
+        </div>
+    </header>
+
+    <main class="container">
+
+        <!-- APARTAT 1: Llistar pel·lícules -->
+        <section class="seccio" id="seccio-1">
+            <h2>Apartat 1 — Llistat de Pel·lícules</h2>
+            <button id="btn-pelicules" onclick="llistarPelicules()">
+                Carregar Pel·lícules
+            </button>
+
+            <p id="total-pelicules"></p>
+
+            <table id="taula-pelicules" border="1" style="display:none">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Imatge</th>
+                        <th>Títol</th>
+                        <th>Any</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody-pelicules">
+                    <!-- Files generades per JS -->
+                </tbody>
+            </table>
+        </section>
+
+        <!-- APARTAT 2: Cercar pel·lícula per ID -->
+        <section id="seccio-2">
+            <h2>Apartat 2 — Cercar una Pel·lícula per ID</h2>
+            <button onclick="carregarSelectorPelicules()">Carregar selector</button>
+
+            <br><br>
+            <select id="selector-pelicules" onchange="mostrarDetallPelicula()" style="display:none">
+                <option value="">-- Selecciona una pel·lícula --</option>
+            </select>
+
+            <div id="descripcio-pelicula"></div>
+
+            <table id="taula-personatges" border="1" style="display:none">
+                <thead>
+                    <tr>
+                        <th>Nom</th>
+                        <th>Gènere</th>
+                        <th>Edat</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody-personatges">
+                    <!-- Files generades per JS -->
+                </tbody>
+            </table>
+        </section>
+
+        <!-- APARTAT 3: Llistat de localitzacions -->
+        <section id="seccio-3">
+            <h2>Apartat 3 — Llistat de Localitzacions</h2>
+            <button onclick="llistarLocalitzacions()">Carregar Localitzacions</button>
+
+            <p id="total-localitzacions"></p>
+
+            <table id="taula-localitzacions" border="1" style="display:none">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Nom</th>
+                        <th>Clima</th>
+                        <th>Terreny</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody-localitzacions">
+                    <!-- Files generades per JS -->
+                </tbody>
+            </table>
+        </section>
+
+        <!-- APARTAT 4: 5 personatges aleatoris -->
+        <section id="seccio-4">
+            <h2>Apartat 4 — 5 Personatges Aleatoris</h2>
+            <button onclick="mostrarPersonatgesAleatoris()">Obtenir 5 Personatges</button>
+
+            <table id="taula-aleatoris" border="1" style="display:none">
+                <thead>
+                    <tr>
+                        <th>Nom</th>
+                        <th>Gènere</th>
+                        <th>ID</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody-aleatoris">
+                    <!-- Files generades per JS -->
+                </tbody>
+            </table>
+        </section>
+
+        <!-- APARTAT 5: Comptar les espècies -->
+        <section id="seccio-5">
+            <h2>Apartat 5 — Recompte d'Espècies</h2>
+            <button onclick="comptarEspecies()">Carregar Espècies</button>
+
+            <table id="taula-especies" border="1" style="display:none">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Espècie</th>
+                        <th>Nombre de personatges</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody-especies">
+                    <!-- Files generades per JS -->
+                </tbody>
+            </table>
+        </section>
+
+    </main>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

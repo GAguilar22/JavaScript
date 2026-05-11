@@ -1,7 +1,7 @@
 // window.onload espera que tota la pàgina estigui carregada
 window.onload = function () {
 
-    // Variable codi descompte
+    // Variable descompte
     let descompteAplicat = false;
 
 
@@ -15,7 +15,7 @@ window.onload = function () {
             subtotal += parseInt($(this).text());
         });
 
-        // Si el descompte està aplicat posem 5, sinó 0
+        // Si apliquem el descompte posem 5 sinó 0
         let descompte = 0;
         if (descompteAplicat) {
             descompte = 5;
@@ -32,8 +32,8 @@ window.onload = function () {
     }
 
 
-    // Amb el .change detectem quan l'usuari modifica el valor dels inputs
-    $('input').change(function () {
+    // Amb el .change detectem quan l'usuari modifica el valor dels inputs que siguin de tipus number
+    $('input[type="number"]').change(function () {
 
 
         //Amb JQuery utilitem $(this) per fer referencia a l'input modificat

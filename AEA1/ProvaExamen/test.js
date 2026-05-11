@@ -25,24 +25,24 @@ document.addEventListener('DOMContentLoaded', function () {
        ========================================= */
 
     // Omplim el <select> amb opcions
-    var camp2 = document.getElementById("camp2");
-    var ciutats = ["Barcelona", "Girona", "Lleida", "Tarragona"];
+    let camp2 = document.getElementById("camp2");
+    let ciutats = ["Barcelona", "Girona", "Lleida", "Tarragona"];
 
-    for (var i = 0; i < ciutats.length; i++) {
-        var opcio = document.createElement("option");
+    for (let i = 0; i < ciutats.length; i++) {
+        let opcio = document.createElement("option");
         opcio.textContent = ciutats[i];
         camp2.appendChild(opcio);
     }
 
     // Quan es clica el botó "Expressions regulars", validem el patró
-    var botoRegex = document.querySelector("button:nth-of-type(2)");
+    let botoRegex = document.querySelector("button:nth-of-type(2)");
     botoRegex.addEventListener("click", function () {
-        var patroEscrit = document.getElementById("camp1").value;
-        var ciutatSeleccionada = camp2.selectedOptions[0].textContent;
+        let patroEscrit = document.getElementById("camp1").value;
+        let ciutatSeleccionada = camp2.selectedOptions[0].textContent;
 
         // Protegim el codi per si el patró no és vàlid
         try {
-            var regex = new RegExp(patroEscrit);
+            let regex = new RegExp(patroEscrit);
             if (regex.test(ciutatSeleccionada)) {
                 alert("Es compleix el patró.");
             } else {
@@ -58,20 +58,20 @@ document.addEventListener('DOMContentLoaded', function () {
        EXERCICI 4 - DOM: barrejar paraules del títol
        ========================================= */
 
-    var botoDOM = document.querySelector("button:nth-of-type(3)");
+    let botoDOM = document.querySelector("button:nth-of-type(3)");
     botoDOM.addEventListener("click", function () {
-        var titol = document.querySelector("h1");
-        var paraules = titol.textContent.split(" ");
-        var paraulesMesclades = barrejar(paraules);
+        let titol = document.querySelector("h1");
+        let paraules = titol.textContent.split(" ");
+        let paraulesMesclades = barrejar(paraules);
         titol.textContent = paraulesMesclades.join(" ");
     });
 
     // Funció que barreja un array (algorisme Fisher-Yates)
     function barrejar(array) {
-        var copia = array.slice(); // fem una còpia per no modificar l'original
-        for (var i = copia.length - 1; i > 0; i--) {
-            var j = Math.floor(Math.random() * (i + 1));
-            var temp = copia[i];
+        let copia = array.slice(); // fem una còpia per no modificar l'original
+        for (let i = copia.length - 1; i > 0; i--) {
+            let j = Math.floor(Math.random() * (i + 1));
+            let temp = copia[i];
             copia[i] = copia[j];
             copia[j] = temp;
         }
@@ -85,11 +85,11 @@ document.addEventListener('DOMContentLoaded', function () {
        S'executen les dues versions cada vegada que es clica
        ========================================= */
 
-    var botoLlibreries = document.querySelector("button:nth-of-type(5)");
+    let botoLlibreries = document.querySelector("button:nth-of-type(5)");
     botoLlibreries.addEventListener("click", function () {
 
         // --- Versió amb JavaScript pur ---
-        var titol = document.querySelector("h1");
+        let titol = document.querySelector("h1");
         if (titol.style.visibility === "hidden") {
             titol.style.visibility = "visible";
         } else {
