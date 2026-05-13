@@ -1,253 +1,123 @@
-const API_BASE = 'https://ghibliapi.vercel.app';
+const URL_FILMS = "https://ghibliapi.vercel.app/films";
+const URL_LOCATIONS = "https://ghibliapi.vercel.app/locations";
+const URL_PEOPLE = "https://ghibliapi.vercel.app/people";
+const URL_SPECIES = "https://ghibliapi.vercel.app/species";
 
-// APARTAT 1 — Llistar pel·lícules
-function llistarPelicules() {
-    const tbody = document.getElementById('tbody-pelicules');
-    const totalP = document.getElementById('total-pelicules');
+// --- APARTAT 1: LLISTAR PEL·LÍCULES ---
+document.getElementById('btn-llistar').addEventListener('click', function () {
+    fetch(URL_FILMS)
+        .then(res => res.json())
+        .then(info => {
+            document.getElementById('total-pelicules').textContent = "Total de pel·lícules: " + info.length;
 
-    tbody.innerHTML = '<tr><td colspan="4">Carregant...</td></tr>';
-
-    fetch(`${API_BASE}/films`)
-        .then(function (resposta) {
-            if (!resposta.ok) {
-                throw new Error(`Error HTTP: ${resposta.status}`);
-            }
-            return resposta.json();
-        })
-        .then(function (pelicules) {
-            mostrarTaulaPelicules(pelicules);
-        })
-        .catch(function (error) {
-            tbody.innerHTML = `<tr><td colspan="4">Error: ${error.message}</td></tr>`;
-        });
-}
-
-function mostrarTaulaPelicules(pelicules) {
-    const tbody = document.getElementById('tbody-pelicules');
-    const totalP = document.getElementById('total-pelicules');
-    const taula = document.getElementById('taula-pelicules');
-    const total = pelicules.length;
-
-    // Mostrem el total i la taula
-    totalP.textContent = `Total de pel·lícules: ${total}`;
-    taula.style.display = '';
-
-    // Generem les files
-    tbody.innerHTML = '';
-    pelicules.forEach(function (pelicula, index) {
-        const fila = document.createElement('tr');
-        fila.innerHTML = `
-            <td>${index + 1}</td>
-            <td><img src="${pelicula.image}" alt="${pelicula.title}" width="60"></td>
-            <td>${pelicula.title}</td>
-            <td>${pelicula.release_date}</td>
-        `;
-        tbody.appendChild(fila);
-    });
-}
-
-// APARTAT 2 — Cercar una pel·lícula per ID
-
-// Omple el <select> amb totes les pel·lícules (ID + títol)
-function carregarSelectorPelicules() {
-    const selector = document.getElementById('selector-pelicules');
-
-    fetch(`${API_BASE}/films`)
-        .then(function (resposta) {
-            if (!resposta.ok) {
-                throw new Error(`Error HTTP: ${resposta.status}`);
-            }
-            return resposta.json();
-        })
-        .then(function (pelicules) {
-            // Buidem el selector i afegim l'opció per defecte
-            selector.innerHTML = '<option value="">-- Selecciona una pel·lícula --</option>';
-
-            pelicules.forEach(function (pelicula) {
-                const opcio = document.createElement('option');
-                opcio.value = pelicula.id;
-                opcio.textContent = pelicula.id + ' — ' + pelicula.title;
-                selector.appendChild(opcio);
+            let taula = `<table><tr><th>#</th><th>Imatge</th><th>Títol</th><th>Any</th></tr>`;
+            info.forEach((film, index) => {
+                taula += `<tr>
+                    <td>${index + 1}</td>
+                    <td><img src="${film.image}"></td>
+                    <td>${film.title}</td>
+                    <td>${film.release_date}</td>
+                </tr>`;
             });
-
-            selector.style.display = '';
-        })
-        .catch(function (error) {
-            alert('Error en carregar les pel·lícules: ' + error.message);
+            taula += `</table>`;
+            document.getElementById('taula-pelis').innerHTML = taula;
         });
-}
+});
 
-// S'executa quan l'usuari selecciona una pel·lícula del selector
-function mostrarDetallPelicula() {
-    const selector = document.getElementById('selector-pelicules');
-    const id = selector.value;
-    const descripcioDiv = document.getElementById('descripcio-pelicula');
-    const taula = document.getElementById('taula-personatges');
-    const tbody = document.getElementById('tbody-personatges');
+// --- APARTAT 2: SELECTOR  ---
+fetch(URL_FILMS)
+    .then(res => res.json())
+    .then(films => {
+        const selector = document.getElementById('selector-id');
+        films.forEach(peli => {
+            let opcio = document.createElement('option');
+            opcio.value = peli.id;
+            opcio.textContent = peli.id + " - " + peli.title;
+            selector.appendChild(opcio);
+        });
+    });
 
-    // Si s'ha escollit l'opció per defecte, buidem i sortim
+document.getElementById('selector-id').addEventListener('change', function () {
+    const id = this.value;
+    const descripcio = document.getElementById('descripcio-pelicula');
+    const llistaPersona = document.getElementById('personatges-peli');
+
     if (!id) {
-        descripcioDiv.innerHTML = '';
-        taula.style.display = 'none';
+        descripcio.innerHTML = "";
+        llistaPersona.innerHTML = "";
         return;
     }
 
-    descripcioDiv.innerHTML = '<p>Carregant...</p>';
-    taula.style.display = 'none';
+    fetch(URL_FILMS + "/" + id)
+        .then(res => res.json())
+        .then(film => {
+            descripcio.innerHTML = "<strong>Descripció:</strong> " + film.description;
+            llistaPersona.innerHTML = "";
 
-    // Primer obtenim les dades de la pel·lícula concreta
-    fetch(`${API_BASE}/films/${id}`)
-        .then(function (resposta) {
-            if (!resposta.ok) {
-                throw new Error(`Error HTTP: ${resposta.status}`);
-            }
-            return resposta.json();
-        })
-        .then(function (pelicula) {
-            // Mostrem la descripció
-            descripcioDiv.innerHTML = '<p><strong>Descripció:</strong> ' + pelicula.description + '</p>';
-
-            // Filtrem les URLs de persones vàlides (descartem les buides)
-            const urlsPersones = pelicula.people.filter(function (url) {
-                return !url.endsWith('/people/');
+            let promesa = film.people.map(url => {
+                if (url.endsWith('/people/')) return Promise.resolve(null);
+                return fetch(url).then(r => r.json());
             });
 
-            if (urlsPersones.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="3">No hi ha personatges registrats per aquesta pel·lícula.</td></tr>';
-                taula.style.display = '';
-                return;
-            }
+            //He d'utilitzar Promise.all he d'esperar a obtenir tots els resultats del fetch per a crear la taula html
+            Promise.all(promesa).then(personatges => {
+                let valids = personatges.filter(p => p !== null);
+                if (valids.length === 0) {
+                    llistaPersona.innerHTML = "<p>Sense personatges registrats</p>";
+                    return;
+                }
 
-            // Opció A: obtenim tots els personatges i filtrem els de la pel·lícula
-            fetch(`${API_BASE}/people`)
-                .then(function (resposta) {
-                    return resposta.json();
-                })
-                .then(function (totsElsPersonatges) {
-                    const personatgesDeLaPeli = totsElsPersonatges.filter(function (persona) {
-                        return urlsPersones.includes(persona.url);
-                    });
-
-                    tbody.innerHTML = '';
-                    personatgesDeLaPeli.forEach(function (persona) {
-                        const fila = document.createElement('tr');
-                        fila.innerHTML = `
-                            <td>${persona.name}</td>
-                            <td>${persona.gender}</td>
-                            <td>${persona.age}</td>
-                        `;
-                        tbody.appendChild(fila);
-                    });
-
-                    taula.style.display = '';
+                let taula = `<table><tr><th>Nom</th><th>Gènere</th><th>Edat</th></tr>`;
+                valids.forEach(personatge => {
+                    taula += `<tr><td>${personatge.name}</td><td>${personatge.gender}</td><td>${personatge.age}</td></tr>`;
                 });
-        })
-        .catch(function (error) {
-            descripcioDiv.innerHTML = '<p>Error: ' + error.message + '</p>';
-        });
-}
-
-// APARTAT 3 — Llistat de localitzacions
-function llistarLocalitzacions() {
-    const tbody = document.getElementById('tbody-localitzacions');
-    const totalP = document.getElementById('total-localitzacions');
-    const taula = document.getElementById('taula-localitzacions');
-
-    tbody.innerHTML = '<tr><td colspan="4">Carregant...</td></tr>';
-
-    fetch(`${API_BASE}/locations`)
-        .then(function (resposta) {
-            if (!resposta.ok) {
-                throw new Error(`Error HTTP: ${resposta.status}`);
-            }
-            return resposta.json();
-        })
-        .then(function (localitzacions) {
-            totalP.textContent = 'Total de localitzacions: ' + localitzacions.length;
-            taula.style.display = '';
-
-            tbody.innerHTML = '';
-            localitzacions.forEach(function (lloc, index) {
-                const fila = document.createElement('tr');
-                fila.innerHTML = `
-                    <td>${index + 1}</td>
-                    <td>${lloc.name}</td>
-                    <td>${lloc.climate || 'No disponible'}</td>
-                    <td>${lloc.terrain || 'No disponible'}</td>
-                `;
-                tbody.appendChild(fila);
+                taula += `</table>`;
+                llistaPersona.innerHTML = taula;
             });
-        })
-        .catch(function (error) {
-            tbody.innerHTML = `<tr><td colspan="4">Error: ${error.message}</td></tr>`;
         });
-}
+});
 
-// APARTAT 4 — 5 personatges aleatoris
-function mostrarPersonatgesAleatoris() {
-    const tbody = document.getElementById('tbody-aleatoris');
-    const taula = document.getElementById('taula-aleatoris');
-
-    tbody.innerHTML = '<tr><td colspan="3">Carregant...</td></tr>';
-    taula.style.display = '';
-
-    fetch(`${API_BASE}/people`)
-        .then(function (resposta) {
-            if (!resposta.ok) {
-                throw new Error(`Error HTTP: ${resposta.status}`);
-            }
-            return resposta.json();
-        })
-        .then(function (personatges) {
-            // Barregem l'array aleatòriament i agafem els 5 primers
-            const cinc = personatges
-                .sort(function () { return Math.random() - 0.5; })
-                .slice(0, 5);
-
-            tbody.innerHTML = '';
-            cinc.forEach(function (persona) {
-                const fila = document.createElement('tr');
-                fila.innerHTML = `
-                    <td>${persona.name}</td>
-                    <td>${persona.gender}</td>
-                    <td>${persona.id}</td>
-                `;
-                tbody.appendChild(fila);
+// --- APARTAT 3: LOCALITZACIONS ---
+document.getElementById('btn-locs').addEventListener('click', function () {
+    fetch(URL_LOCATIONS)
+        .then(res => res.json())
+        .then(llocs => {
+            let taula = `<table><tr><th>#</th><th>Nom</th><th>Clima</th><th>Terreny</th></tr>`;
+            llocs.forEach((lloc, index) => {
+                taula += `<tr><td>${index + 1}</td><td>${lloc.name}</td><td>${lloc.climate || 'No disponible'}</td><td>${lloc.terrain || 'No disponible'}</td></tr>`;
             });
-        })
-        .catch(function (error) {
-            tbody.innerHTML = `<tr><td colspan="3">Error: ${error.message}</td></tr>`;
+            taula += `</table>`;
+            document.getElementById('taula-locs').innerHTML = taula;
         });
-}
+});
 
-// APARTAT 5 — Comptar les espècies
-function comptarEspecies() {
-    const tbody = document.getElementById('tbody-especies');
-    const taula = document.getElementById('taula-especies');
+// --- APARTAT 4: 5 PERSONATGES ALEATORIS ---
+document.getElementById('btn-random').addEventListener('click', function () {
+    fetch(URL_PEOPLE)
+        .then(res => res.json())
+        .then(personatges => {
+            let taula = `<table><tr><th>Nom</th><th>Gènere</th><th>ID</th></tr>`;
+            // Barrejar l'array i agafar els 5 primers
+            let personatgesAleatoris = personatges.sort(() => Math.random() - 0.5).slice(0, 5);
 
-    tbody.innerHTML = '<tr><td colspan="3">Carregant...</td></tr>';
-    taula.style.display = '';
-
-    fetch(`${API_BASE}/species`)
-        .then(function (resposta) {
-            if (!resposta.ok) {
-                throw new Error(`Error HTTP: ${resposta.status}`);
-            }
-            return resposta.json();
-        })
-        .then(function (especies) {
-            tbody.innerHTML = '';
-            especies.forEach(function (especie, index) {
-                const fila = document.createElement('tr');
-                fila.innerHTML = `
-                    <td>${index + 1}</td>
-                    <td>${especie.name}</td>
-                    <td>${especie.people.length}</td>
-                `;
-                tbody.appendChild(fila);
+            personatgesAleatoris.forEach(personatge => {
+                taula += `<tr><td>${personatge.name}</td><td>${personatge.gender}</td><td>${personatge.id}</td></tr>`;
             });
-        })
-        .catch(function (error) {
-            tbody.innerHTML = `<tr><td colspan="3">Error: ${error.message}</td></tr>`;
+            taula += `</table>`;
+            document.getElementById('taula-random').innerHTML = taula;
         });
-}
+});
+
+// --- APARTAT 5: COMPTAR ESPÈCIES ---
+document.getElementById('btn-especies').addEventListener('click', function () {
+    fetch(URL_SPECIES)
+        .then(res => res.json())
+        .then(especies => {
+            let taula = `<table><tr><th>#</th><th>Espècie</th><th>Nombre de personatges</th></tr>`;
+            especies.forEach((especie, index) => {
+                taula += `<tr><td>${index + 1}</td><td>${especie.name}</td><td>${especie.people.length}</td></tr>`;
+            });
+            taula += `</table>`;
+            document.getElementById('llista-especies').innerHTML = taula;
+        });
+});

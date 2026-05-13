@@ -2,8 +2,7 @@
 <html lang="ca">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Studio Ghibli Explorer</title>
+    <title>Examen Ghibli - DAW</title>
     <style>
         table { width: 100%; border-collapse: collapse; margin-top: 10px; }
         th, td { border: 1px solid black; padding: 8px; text-align: left; }
@@ -18,8 +17,8 @@
     <!-- Apartat 1 -->
     <div class="seccio">
         <h2>Apartat 1: Llistar Pel·lícules</h2>
-        <button id="btn-llistar">Carregar Pel·lícules</button>
-        <p id="total-pelicules"></p>
+        <button id="btn-llistar">Llistar Pel·lícules</button>
+        <p id="total-pelis"></p>
         <div id="taula-pelis"></div>
     </div>
 
@@ -27,36 +26,35 @@
     <div class="seccio">
         <h2>Apartat 2: Cercar per ID</h2>
         <select id="selector-id">
-            <option value="">-- Selecciona una pel·lícula --</option>
+            <option value="">Tria una pel·lícula...</option>
         </select>
         <div id="detall-peli">
-            <p id="descripcio-pelicula"></p>
-            <div id="personatges-peli"></div>
+            <p id="descripcio-peli"></p>
+            <ul id="personatges-peli"></ul>
         </div>
     </div>
 
     <!-- Apartat 3 -->
     <div class="seccio">
         <h2>Apartat 3: Localitzacions</h2>
-        <button id="btn-locs">Carregar Localitzacions</button>
-        <p id="total-localitzacions"></p>
+        <button id="btn-locs">Mostrar Localitzacions</button>
         <div id="taula-locs"></div>
     </div>
 
     <!-- Apartat 4 -->
     <div class="seccio">
         <h2>Apartat 4: 5 Personatges Aleatoris</h2>
-        <button id="btn-random">Obtenir 5 Personatges</button>
+        <button id="btn-random">Generar 5 Aleatoris</button>
         <div id="taula-random"></div>
     </div>
 
     <!-- Apartat 5 -->
     <div class="seccio">
         <h2>Apartat 5: Comptar Espècies</h2>
-        <button id="btn-especies">Carregar Espècies</button>
+        <button id="btn-especies">Comptar Espècies</button>
         <div id="llista-especies"></div>
     </div>
 
-    <script src="script.js"></script>
+    <script src="main.js"></script>
 </body>
 </html>
