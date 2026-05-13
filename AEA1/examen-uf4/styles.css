@@ -1,0 +1,15 @@
+img {
+    width: 100px;
+}
+
+.llistaPersonatges,
+.llistaRaces,
+.llistaPersonatgesAleatoris {
+    list-style: none;
+    padding-left: 0;
+}
+
+
+.oculto{
+    display: none;
+}
